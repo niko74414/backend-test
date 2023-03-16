@@ -33,6 +33,17 @@ back_end_test_blueprint.add_url_rule(
     view_func=controllers.drawing_book,
     methods=["POST"]
 )
+back_end_test_blueprint.add_url_rule(
+    '/counting-valleys',
+    view_func=controllers.counting_valleys,
+    methods=["POST"]
+)
+back_end_test_blueprint.add_url_rule(
+    '/cats-and-a-mouse',
+    view_func=controllers.cats_and_a_mouse,
+    methods=["POST"]
+)
+
 back_end_test_blueprint.before_request(
     lambda: __logger.info(f"{request.method} {request.full_path} {request.environ.get('SERVER_PROTOCOL', '')}")
 )

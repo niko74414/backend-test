@@ -209,3 +209,114 @@ def drawing_book(postData: ControllerEntry, params: AnyDict):
     if n == p:
         last_steps_front = steps_front
     return {"num":min([last_steps_back,last_steps_front])}
+
+@PostController(
+    logger,
+    {
+        "steps": Use(int),
+        "path": Use(str),
+    }
+)
+def counting_valleys(postData: ControllerEntry, params: AnyDict):
+    """
+        url: https://www.hackerrank.com/challenges/counting-valleys
+        An avid hiker keeps meticulous records of their hikes. During
+        the last hike that took exactly steps steps, for every step it was noted 
+        if it was an uphill, U, or a downhill, D step. Hikes always start and 
+        end at sea level, and each step up or down represents a 1 unit change 
+        in altitude. We define the following terms:
+
+        - A mountain is a sequence of consecutive steps above sea level, starting
+        with a step up from sea level and ending with a step down to sea level.
+
+        - A valley is a sequence of consecutive steps below sea level,
+        starting with a step down from sea level and ending with a step up to sea level.
+
+        Given the sequence of up and down steps during a hike, find and print the
+        number of valleys walked through.
+
+        For example
+
+        steps = 8 path = [DDUUUUDD]
+
+        The hiker first enters a valley 2 units deep. Then they climb out
+        and up onto a mountain 2 units high. Finally, the hiker returns to 
+        sea level and ends the hike.
+        
+
+        :param steps:int number of steps on the hike
+        :param path:string a string describing the path
+
+        :return int the number of valleys traversed
+    """
+    steps = postData.get("steps")
+    path = postData.get("path")
+    sea_level = 0
+    valleys = 0
+    for i in path:
+        if i == "D"  and sea_level == 0:
+            valleys += 1
+        if i == "U":
+            sea_level  += 1
+        else:
+            sea_level -= 1
+    return {"msg":valleys}
+
+@PostController(
+    logger,
+    {
+        "steps": Use(int),
+        "path": Use(str),
+    }
+)
+def cats_and_a_mouse(postData: ControllerEntry, params: AnyDict):
+    """
+        url: https://www.hackerrank.com/challenges/counting-valleys
+        Two cats and a mouse are at various positions on a line. 
+        You will be given their starting positions. Your task is to 
+        determine which cat will reach the mouse first, assuming the 
+        mouse does not move and the cats travel at equal speed. If the 
+        cats arrive at the same time, the mouse will be allowed to move 
+        and it will escape while they fight.
+
+        You are given q queries in the form of x, y, and z representing the respective 
+        positions for cats A and B, and for mouse C. Complete the function catAndMouse to return 
+        the appropriate answer to each query, which will be printed on a new line.
+
+        - If cat A catches the mouse first, print Cat A.
+
+        - If cat B catches the mouse first, print Cat B.
+
+        - If both cats reach the mouse at the same time, print Mouse C as the two cats fight and mouse escapes.
+
+        Given the sequence of up and down steps during a hike, find and print the
+        number of valleys walked through.
+
+        For example
+
+        x = 2
+        y = 5
+        z = 4
+
+        The cats are at positions 2 (Cat A) and 5 (Cat B), and the mouse is at position 4. 
+        Cat B, at position 5 will arrive first since it is only  unit away while the 
+        other is 1 units away. Return 'Cat B'.
+        
+
+        :param x:int Cat A position
+        :param yint Cat B position
+        :param z:int Mouse C position
+
+        :return str Either 'Cat A', 'Cat B' or 'Mouse C'
+    """
+    x = postData.get("x")
+    y = postData.get("y")
+    z = postData.get("z")
+    dist_cat_a = abs(x - z)
+    dist_cat_b = abs(y - z)
+    if dist_cat_a == dist_cat_b:
+        return "Mouse C"
+    if dist_cat_a > dist_cat_b:
+        return "Cat B"
+    else:
+        return "Cat A"
